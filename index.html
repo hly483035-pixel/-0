@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>كل عام وأنتِ بخير ♥️</title>
+    <!-- مكتبة الاحتفالات والقصاصات الملونة -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -13,152 +15,202 @@
         }
 
         body {
-            background-color: #ffdeeb;
+            background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow-x: hidden;
             padding: 20px;
+            position: relative;
         }
 
-        .card {
-            background: rgba(255, 255, 255, 0.92);
-            border-radius: 25px;
-            padding: 30px 20px;
+        /* خلفية القلوب الطافية */
+        .bg-hearts {
+            position: absolute;
             width: 100%;
-            max-width: 500px;
+            height: 100%;
+            overflow: hidden;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .heart-particle {
+            position: absolute;
+            bottom: -10%;
+            font-size: 1.5rem;
+            animation: floatUp 8s infinite linear;
+            opacity: 0.6;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* الكارت الرئيسي بتصميم زجاجي عاكس */
+        .card {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(12px);
+            border-radius: 30px;
+            padding: 35px 25px;
+            width: 100%;
+            max-width: 480px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
-            border: 3px solid #ffb6c1;
+            box-shadow: 0 20px 40px rgba(255, 105, 180, 0.25), inset 0 0 15px rgba(255, 255, 255, 0.6);
+            border: 2px solid rgba(255, 182, 193, 0.8);
             position: relative;
+            z-index: 10;
+            transition: all 0.3s ease;
         }
 
         .text-title {
             color: #d63384;
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 20px;
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 25px;
             line-height: 1.5;
-            min-height: 60px;
+            min-height: 65px;
             display: flex;
             align-items: center;
             justify-content: center;
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
         }
 
         /* الكيكة والشمعة */
         .cake-container {
             position: relative;
-            width: 150px;
-            height: 160px;
+            width: 170px;
+            height: 170px;
             margin: 0 auto 25px auto;
         }
 
-        .cake {
-            width: 140px;
-            height: 90px;
-            background: #f7a8b8;
-            border-radius: 15px 15px 10px 10px;
+        .plate {
+            width: 180px;
+            height: 15px;
+            background: #e6e6e6;
+            background: linear-gradient(to right, #e0e0e0, #ffffff, #e0e0e0);
+            border-radius: 10px;
             position: absolute;
-            bottom: 0;
-            left: 5px;
-            box-shadow: inset 0 -10px 0 #e68a9c, 0 5px 10px rgba(0,0,0,0.1);
+            bottom: -5px;
+            left: -5px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.15);
         }
 
-        .cake::before {
-            content: '';
+        .cake {
+            width: 150px;
+            height: 95px;
+            background: linear-gradient(to bottom, #ff85a2, #ff5c8a);
+            border-radius: 20px 20px 12px 12px;
+            position: absolute;
+            bottom: 5px;
+            left: 10px;
+            box-shadow: inset 0 -12px 0 #d84370;
+        }
+
+        .drips {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 30px;
-            background: #fff;
-            border-radius: 15px 15px 10px 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            height: 35px;
+            background: #ffffff;
+            border-radius: 20px 20px 10px 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
         }
 
         .candle {
-            width: 12px;
-            height: 45px;
-            background: repeating-linear-gradient(45deg, #fff, #fff 5px, #ff4d6d 5px, #ff4d6d 10px);
+            width: 14px;
+            height: 50px;
+            background: repeating-linear-gradient(45deg, #ffffff, #ffffff 6px, #ff4d6d 6px, #ff4d6d 12px);
             position: absolute;
-            top: 30px;
-            left: 69px;
-            border-radius: 3px;
+            top: 25px;
+            left: 78px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .flame {
-            width: 16px;
-            height: 24px;
-            background: #ff9d00;
+            width: 18px;
+            height: 28px;
+            background: radial-gradient(ellipse at bottom, #ffea00 10%, #ff9100 50%, #ff3c00 100%);
             border-radius: 50% 50% 20% 20%;
             position: absolute;
-            top: 8px;
-            left: 67px;
-            box-shadow: 0 0 12px #ff9d00, 0 0 20px #ff2a00;
-            animation: flicker 0.2s infinite alternate;
-            transition: opacity 0.5s ease;
+            top: -2px;
+            left: 76px;
+            box-shadow: 0 0 15px #ff9100, 0 0 25px #ff3c00;
+            animation: flicker 0.15s infinite alternate ease-in-out;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
         @keyframes flicker {
-            0% { transform: scale(1) rotate(-2deg); }
-            100% { transform: scale(1.1) rotate(2deg); }
+            0% { transform: scale(1) rotate(-3deg); }
+            100% { transform: scale(1.12) rotate(3deg); }
         }
 
         /* هواء النفخ */
         .wind {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 2rem;
+            top: 0px;
+            right: 0px;
+            font-size: 2.2rem;
             opacity: 0;
-            transition: opacity 0.3s, transform 0.5s ease-out;
+            transition: opacity 0.2s, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             pointer-events: none;
         }
 
         .wind.active {
             opacity: 1;
-            transform: translateX(-40px);
+            transform: translateX(-50px) scale(1.2);
         }
 
         /* الأزرار */
         .btn-container {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
             justify-content: center;
             align-items: center;
         }
 
         .btn {
-            background-color: #ff69b4;
+            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
             color: white;
             border: none;
-            padding: 12px 25px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 25px;
+            padding: 14px 28px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            border-radius: 30px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
-            transition: transform 0.2s, background-color 0.2s;
-            width: 85%;
-            max-width: 280px;
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.35);
+            transition: all 0.25s ease;
+            width: 90%;
+            max-width: 300px;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.45);
         }
 
         .btn:active {
-            transform: scale(0.95);
+            transform: scale(0.96);
         }
 
         .btn-alt {
-            background-color: #ff4d6d;
+            background: linear-gradient(135deg, #ff4d6d 0%, #c72c41 100%);
+            box-shadow: 0 6px 20px rgba(255, 77, 109, 0.35);
         }
 
-        /* علامات الخطأ والغضب */
+        /* أيقونات التفاعل */
         .feedback-icon {
-            font-size: 3.5rem;
-            margin: 10px 0;
+            font-size: 4rem;
+            margin: 15px 0;
             display: none;
-            animation: popIn 0.3s ease;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         @keyframes popIn {
@@ -171,38 +223,57 @@
         .greeting-box {
             display: none;
             text-align: right;
-            line-height: 1.8;
-            color: #881337;
-            font-size: 1.05rem;
-            background: #fff0f5;
-            padding: 20px;
-            border-radius: 18px;
+            line-height: 1.9;
+            color: #7209b7;
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: rgba(255, 240, 245, 0.95);
+            padding: 22px;
+            border-radius: 22px;
             border: 2px dashed #ff69b4;
-            max-height: 60vh;
+            max-height: 55vh;
             overflow-y: auto;
+            box-shadow: inset 0 0 10px rgba(255, 105, 180, 0.15);
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .greeting-box p {
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
-        .heart-icon {
-            color: #ff2a00;
-            display: inline-block;
+        /* شريط التمرير الوردية للمعايدة */
+        .greeting-box::-webkit-scrollbar {
+            width: 6px;
+        }
+        .greeting-box::-webkit-scrollbar-thumb {
+            background: #ffb6c1;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
 
+    <!-- القلوب الطافية بالخلفية -->
+    <div class="bg-hearts" id="hearts-bg"></div>
+
     <div class="card">
         <!-- النص الرئيسي -->
         <div id="title-text" class="text-title">أتمني وطفي الشمعه 🎂</div>
 
-        <!-- أشكال الكيكة والهواء -->
+        <!-- الكيكة والشمعة -->
         <div id="cake-sec" class="cake-container">
-            <div class="candle"></div>
-            <div id="flame" class="flame"></div>
-            <div class="cake"></div>
+            <div class="plate"></div>
+            <div class="cake">
+                <div class="drips"></div>
+            </div>
+            <div class="candle">
+                <div id="flame" class="flame"></div>
+            </div>
             <div id="wind-effect" class="wind">💨</div>
         </div>
 
@@ -226,6 +297,19 @@
     </div>
 
     <script>
+        // إنشاء القلوب الطافية بالخلفية
+        const heartsBg = document.getElementById('hearts-bg');
+        const heartIcons = ['🌸', '✨', '💖', '💗', '🎀'];
+        for (let i = 0; i < 18; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'heart-particle';
+            heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = (Math.random() * 6) + 's';
+            heart.style.animationDuration = (6 + Math.random() * 6) + 's';
+            heartsBg.appendChild(heart);
+        }
+
         let loveAttemptCount = 0;
 
         function triggerWindAnimation() {
@@ -241,7 +325,7 @@
 
             if (step === 1) {
                 setTimeout(() => {
-                    document.getElementById('title-text').innerText = "أنفخي من الاوادم ثوله 😤";
+                    document.getElementById('title-text').innerText = "أنفخي مثل الناس ثوله 😤";
                     document.getElementById('buttons-sec').innerHTML = `
                         <button class="btn" onclick="blowAttempt(2)">هههفففففففففف</button>
                     `;
@@ -266,11 +350,16 @@
                     document.getElementById('flame').style.opacity = '0';
                     document.getElementById('title-text').innerText = "عفيةةة! انطفت الشمعة 🎉";
                     
+                    // تشغيل القصاصات الملونة الاحتفالية
+                    if (typeof confetti === 'function') {
+                        confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+                    }
+
                     setTimeout(() => {
                         // الانتقال لمرحلة منو يحب الثاني أكثر
                         document.getElementById('cake-sec').style.display = 'none';
                         showLoveQuestion();
-                    }, 1200);
+                    }, 1300);
                 }, 400);
             }
         }
@@ -322,6 +411,11 @@
             document.getElementById('title-text').innerText = "كل عام وأنتِ بمليون خير ♥️🎉";
             document.getElementById('buttons-sec').style.display = 'none';
             document.getElementById('greeting-sec').style.display = 'block';
+
+            // إطلاق القصاصات الملونة الكثيفة في النهاية
+            if (typeof confetti === 'function') {
+                confetti({ particleCount: 120, spread: 100, origin: { y: 0.5 } });
+            }
         }
     </script>
 </body>
