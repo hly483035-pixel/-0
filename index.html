@@ -3,65 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مفاجأة خاصة ♥️</title>
+    <title>كل عام وأنتِ بخير ♥️</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
             background-color: #ffdeeb;
-            overflow: hidden;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: background-color 1.5s ease;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            padding: 20px;
         }
 
-        /* الشاشة الوردية تفاعلية */
-        #pink-screen {
+        .card {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 25px;
+            padding: 30px 20px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+            border: 3px solid #ffb6c1;
+            position: relative;
+        }
+
+        .text-title {
+            color: #d63384;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* الكيكة والشمعة */
+        .cake-container {
+            position: relative;
+            width: 150px;
+            height: 160px;
+            margin: 0 auto 25px auto;
+        }
+
+        .cake {
+            width: 140px;
+            height: 90px;
+            background: #f7a8b8;
+            border-radius: 15px 15px 10px 10px;
+            position: absolute;
+            bottom: 0;
+            left: 5px;
+            box-shadow: inset 0 -10px 0 #e68a9c, 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        .cake::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 30px;
+            background: #fff;
+            border-radius: 15px 15px 10px 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .candle {
+            width: 12px;
+            height: 45px;
+            background: repeating-linear-gradient(45deg, #fff, #fff 5px, #ff4d6d 5px, #ff4d6d 10px);
+            position: absolute;
+            top: 30px;
+            left: 69px;
+            border-radius: 3px;
+        }
+
+        .flame {
+            width: 16px;
+            height: 24px;
+            background: #ff9d00;
+            border-radius: 50% 50% 20% 20%;
+            position: absolute;
+            top: 8px;
+            left: 67px;
+            box-shadow: 0 0 12px #ff9d00, 0 0 20px #ff2a00;
+            animation: flicker 0.2s infinite alternate;
+            transition: opacity 0.5s ease;
+        }
+
+        @keyframes flicker {
+            0% { transform: scale(1) rotate(-2deg); }
+            100% { transform: scale(1.1) rotate(2deg); }
+        }
+
+        /* هواء النفخ */
+        .wind {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.5s ease-out;
+            pointer-events: none;
+        }
+
+        .wind.active {
+            opacity: 1;
+            transform: translateX(-40px);
+        }
+
+        /* الأزرار */
+        .btn-container {
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            transition: opacity 1.2s ease, visibility 1.2s ease;
-            padding: 20px;
-            text-align: center;
-        }
-
-        #pink-screen.hide {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .kitty-svg {
-            width: 170px;
-            height: 170px;
-            margin-bottom: 15px;
-            filter: drop-shadow(0 6px 12px rgba(255, 105, 180, 0.4));
-        }
-
-        .question-text {
-            color: #d63384;
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-bottom: 25px;
-            text-shadow: 0 2px 5px rgba(255, 255, 255, 0.9);
-            max-width: 90%;
-            line-height: 1.5;
-        }
-
-        .buttons-container {
-            display: flex;
             gap: 12px;
             justify-content: center;
-            flex-wrap: wrap;
+            align-items: center;
         }
 
         .btn {
@@ -69,12 +135,14 @@
             color: white;
             border: none;
             padding: 12px 25px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
             border-radius: 25px;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
             transition: transform 0.2s, background-color 0.2s;
+            width: 85%;
+            max-width: 280px;
         }
 
         .btn:active {
@@ -85,308 +153,176 @@
             background-color: #ff4d6d;
         }
 
-        /* شاشة الرسم الوردية */
-        #drawing-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 1.5s ease;
+        /* علامات الخطأ والغضب */
+        .feedback-icon {
+            font-size: 3.5rem;
+            margin: 10px 0;
+            display: none;
+            animation: popIn 0.3s ease;
         }
 
-        #drawing-screen.show {
-            opacity: 1;
-            visibility: visible;
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            80% { transform: scale(1.2); }
+            100% { transform: scale(1); }
         }
 
-        canvas {
-            display: block;
+        /* المعايدة النهائية */
+        .greeting-box {
+            display: none;
+            text-align: right;
+            line-height: 1.8;
+            color: #881337;
+            font-size: 1.05rem;
+            background: #fff0f5;
+            padding: 20px;
+            border-radius: 18px;
+            border: 2px dashed #ff69b4;
+            max-height: 60vh;
+            overflow-y: auto;
         }
 
-        #message-box {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.85);
-            text-align: center;
-            opacity: 0;
-            transition: opacity 2.5s ease-in-out, transform 2.5s ease-in-out;
-            pointer-events: none;
-            width: 88%;
-            max-width: 550px;
-            background: rgba(255, 255, 255, 0.85);
-            padding: 25px 20px;
-            border-radius: 20px;
-            backdrop-filter: blur(8px);
-            border: 2px solid rgba(255, 105, 180, 0.5);
-            box-shadow: 0 0 30px rgba(255, 105, 180, 0.4);
-        }
-
-        #message-box.show {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .main-text {
-            color: #a81c51;
-            font-size: 1.8rem;
-            font-weight: bold;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+        .greeting-box p {
             margin-bottom: 12px;
-            line-height: 1.5;
         }
 
-        .sub-text {
-            color: #d63384;
-            font-size: 1.6rem;
-            font-weight: 600;
-            text-shadow: 0 0 8px rgba(255, 182, 193, 0.9);
-        }
-
-        @media (max-width: 600px) {
-            .main-text { font-size: 1.35rem; }
-            .sub-text { font-size: 1.25rem; }
-            .question-text { font-size: 1.4rem; }
-            .btn { font-size: 1.05rem; padding: 10px 20px; }
-            .kitty-svg { width: 140px; height: 140px; }
+        .heart-icon {
+            color: #ff2a00;
+            display: inline-block;
         }
     </style>
 </head>
 <body>
 
-    <!-- ملف الصوت للأغنية -->
-    <audio id="bgMusic" src="song.mp3" preload="auto"></audio>
+    <div class="card">
+        <!-- النص الرئيسي -->
+        <div id="title-text" class="text-title">أتمني وطفي الشمعه 🎂</div>
 
-    <!-- الشاشة الوردية تفاعلية -->
-    <div id="pink-screen">
-        
-        <!-- رسم هالو كيتي المباشر بدون اعتماد على الإنترنت -->
-        <svg class="kitty-svg" viewBox="0 0 200 180">
-            <!-- الرأس -->
-            <ellipse cx="100" cy="95" rx="70" ry="52" fill="#ffffff" stroke="#000000" stroke-width="5.5"/>
-            <!-- الأذن اليسرى -->
-            <path d="M 40 60 Q 32 15 62 48" fill="#ffffff" stroke="#000000" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <!-- الأذن اليمنى -->
-            <path d="M 160 60 Q 168 15 138 48" fill="#ffffff" stroke="#000000" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <!-- العيون -->
-            <ellipse cx="68" cy="98" rx="6.5" ry="9.5" fill="#000000"/>
-            <ellipse cx="132" cy="98" rx="6.5" ry="9.5" fill="#000000"/>
-            <!-- الأنف -->
-            <ellipse cx="100" cy="108" rx="7.5" ry="5.5" fill="#ffcc00" stroke="#000000" stroke-width="2"/>
-            <!-- الشوارب اليمنى -->
-            <line x1="145" y1="92" x2="182" y2="86" stroke="#000000" stroke-width="5" stroke-linecap="round"/>
-            <line x1="148" y1="102" x2="185" y2="102" stroke="#000000" stroke-width="5" stroke-linecap="round"/>
-            <line x1="145" y1="112" x2="180" y2="118" stroke="#000000" stroke-width="5" stroke-linecap="round"/>
-            <!-- الشوارب اليسرى -->
-            <line x1="55" y1="92" x2="18" y2="86" stroke="#000000" stroke-width="5" stroke-linecap="round"/>
-            <line x1="52" y1="102" x2="15" y2="102" stroke="#000000" stroke-width="5" stroke-linecap="round"/>
-            <line x1="55" y1="112" x2="20" y2="118" stroke="#000000" stroke-width="5" stroke-linecap="round"/>
-            <!-- الفيونكة الحمراء -->
-            <circle cx="138" cy="52" r="11" fill="#ff0044" stroke="#000000" stroke-width="4.5"/>
-            <path d="M 138 52 Q 112 30 118 65 Q 138 52 138 52 Z" fill="#ff0044" stroke="#000000" stroke-width="4.5" stroke-linejoin="round"/>
-            <path d="M 138 52 Q 164 30 158 65 Q 138 52 138 52 Z" fill="#ff0044" stroke="#000000" stroke-width="4.5" stroke-linejoin="round"/>
-            <circle cx="135" cy="49" r="3" fill="#ffffff" opacity="0.6"/>
-        </svg>
-
-        <div id="question" class="question-text">يا هلا ببنيات گلبي نورتي بغداد يا حلوتي ♥️</div>
-        
-        <!-- الخطوة 0: الترحيب ببغداد -->
-        <div id="step0-btns" class="buttons-container">
-            <button class="btn" onclick="startQuestions()">هلا بيك عيني 🌸</button>
+        <!-- أشكال الكيكة والهواء -->
+        <div id="cake-sec" class="cake-container">
+            <div class="candle"></div>
+            <div id="flame" class="flame"></div>
+            <div class="cake"></div>
+            <div id="wind-effect" class="wind">💨</div>
         </div>
 
-        <!-- الخطوة 1: تحبيني؟ -->
-        <div id="step1-btns" class="buttons-container" style="display: none;">
-            <button class="btn" onclick="answerLove()">نعم</button>
-            <button class="btn" onclick="answerLove()">طبعاً</button>
+        <!-- أيقونات التفاعل (خطأ / غضب) -->
+        <div id="error-icon" class="feedback-icon">❌</div>
+        <div id="angry-icon" class="feedback-icon">😡</div>
+
+        <!-- الأزرار -->
+        <div id="buttons-sec" class="btn-container">
+            <button class="btn" onclick="blowAttempt(1)">هههفففف</button>
         </div>
 
-        <!-- الخطوة 2: تردين ورده؟ -->
-        <div id="step2-btns" class="buttons-container" style="display: none;">
-            <button class="btn" onclick="askKiss()">نعم 🌹</button>
-        </div>
-
-        <!-- الخطوة 3: شرط البوسة -->
-        <div id="step3-btns" class="buttons-container" style="display: none;">
-            <button class="btn" onclick="startRoseSequence()">أممممحححح 💋</button>
-            <button class="btn btn-alt" onclick="rejectKiss()">لا ماكو بوسة 🙈</button>
-        </div>
-
-        <!-- الخطوة 4: غصب تنطيني بوسة -->
-        <div id="step4-btns" class="buttons-container" style="display: none;">
-            <button class="btn" onclick="startRoseSequence()">أممممحححح 💋</button>
-        </div>
-    </div>
-
-    <!-- شاشة الرسم الوردية -->
-    <div id="drawing-screen">
-        <canvas id="roseCanvas"></canvas>
-        <div id="message-box">
-            <div class="main-text">الحمدلله ع السلامه بنوتاتي الحلوات ♥️🌸</div>
-            <div class="sub-text">اموت عليج</div>
+        <!-- رسالة المعايدة النهائية -->
+        <div id="greeting-sec" class="greeting-box">
+            <p>كل عام وانتِ بالف خير يا احلا واجمل اخت وأم وصديقة وطفله اني محظوظ لان انتي بنيتي ♥️</p>
+            <p>كل عام وانتي بخير وان شاء الله يارب ما تشوفين بعمرج غير الراحه والسعاده والتوفيق والله يكتبلج كل شيء تتمنيه دائما يارب ✨</p>
+            <p>وان شاء الله يارب من توفيق التوفيق واشوفج بخير وبصحه وعافيه وسلامه والله يطول بعمرج ويحظفج الي والاهلج ويحفظ امج الج ويرزقج يارب 🤲</p>
+            <p>وان شاء الله يارب اشوفج طول العمر بخير وسلامة وفرحه يارب الله يطول عمرج ويجعل يومي قبل يومج يا بعد عيوني انتِ ♥️</p>
+            <p>أن شاء الله كل عام اعايدج واشوفج بخير وصحه وعافيه يارب عيوني انتي ع اقبال المليار سنه يارب ♥️🎂🎉</p>
         </div>
     </div>
 
     <script>
-        const pinkScreen = document.getElementById('pink-screen');
-        const drawingScreen = document.getElementById('drawing-screen');
-        const questionText = document.getElementById('question');
-        const step0Btns = document.getElementById('step0-btns');
-        const step1Btns = document.getElementById('step1-btns');
-        const step2Btns = document.getElementById('step2-btns');
-        const step3Btns = document.getElementById('step3-btns');
-        const step4Btns = document.getElementById('step4-btns');
-        const bgMusic = document.getElementById('bgMusic');
+        let loveAttemptCount = 0;
 
-        // الانتقال من الترحيب إلى تحبيني؟
-        function startQuestions() {
-            step0Btns.style.display = "none";
-            questionText.innerText = "تحبيني؟";
-            step1Btns.style.display = "flex";
-        }
-
-        // 1. تحبيني؟
-        function answerLove() {
-            questionText.innerText = "اني هم احبج ♥️";
-            step1Btns.style.display = "none";
-
+        function triggerWindAnimation() {
+            const wind = document.getElementById('wind-effect');
+            wind.classList.add('active');
             setTimeout(() => {
-                questionText.innerText = "تردين ورده؟ 🌹";
-                step2Btns.style.display = "flex";
-            }, 1600);
+                wind.classList.remove('active');
+            }, 600);
         }
 
-        // 2. شرط البوسة
-        function askKiss() {
-            questionText.innerText = "تره الوردة مقابل بوسة! انطيني بوسة تاخذين الوردة 💋";
-            step2Btns.style.display = "none";
-            step3Btns.style.display = "flex";
-        }
+        function blowAttempt(step) {
+            triggerWindAnimation();
 
-        // 3. رفض البوسة
-        function rejectKiss() {
-            questionText.innerText = "غصب تنطيني بوسة! 😡💋";
-            step3Btns.style.display = "none";
-            step4Btns.style.display = "flex";
-        }
-
-        // 4. الانطلاق للرسم وتشغيل الأغنية
-        function startRoseSequence() {
-            // تشغيل الصوت
-            bgMusic.play().catch(e => console.log("الصوت بانتظار تفاعل"));
-
-            pinkScreen.classList.add('hide');
-            document.body.style.backgroundColor = "#ffe3ee";
-            
-            setTimeout(() => {
-                drawingScreen.classList.add('show');
-                initCanvas();
-                drawRose();
-            }, 1000);
-        }
-
-        // --- رسم الوردة والقلوب ---
-        const canvas = document.getElementById('roseCanvas');
-        const ctx = canvas.getContext('2d');
-        const messageBox = document.getElementById('message-box');
-
-        let width, height, centerX, centerY, roseSize;
-
-        function initCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            width = canvas.width;
-            height = canvas.height;
-            centerX = width / 2;
-            centerY = height / 2;
-            roseSize = Math.min(width, height) * 0.38;
-        }
-
-        let roseT = 0;
-        const maxRoseT = 16 * Math.PI;
-
-        function drawRose() {
-            if (roseT < maxRoseT) {
-                let k = 7 / 9;
-                let r = roseSize * Math.sin(k * roseT);
-                
-                let x = r * Math.cos(roseT);
-                let y = r * Math.sin(roseT);
-                y -= Math.abs(x) * 0.1;
-
-                ctx.beginPath();
-                ctx.arc(centerX + x, centerY + y, 2.2, 0, Math.PI * 2);
-                
-                let redVal = Math.floor(200 + Math.sin(roseT) * 55);
-                ctx.fillStyle = `rgb(${redVal}, 10, 50)`;
-                ctx.shadowColor = 'rgba(214, 51, 132, 0.4)';
-                ctx.shadowBlur = 6;
-                ctx.fill();
-
-                roseT += 0.022;
-                requestAnimationFrame(drawRose);
-            } else {
-                ctx.shadowBlur = 0;
-                requestAnimationFrame(startHeartsDrawing);
-            }
-        }
-
-        const heartCount = 12;
-        let heartIndex = 0;
-        let heartProgress = 0;
-
-        function startHeartsDrawing() {
-            const heartRadius = roseSize * 1.15;
-            if (heartIndex < heartCount) {
-                let angle = (heartIndex / heartCount) * Math.PI * 2;
-                let hx = centerX + Math.cos(angle) * heartRadius;
-                let hy = centerY + Math.sin(angle) * heartRadius;
-
-                drawSingleHeart(hx, hy, 16, heartProgress);
-
-                heartProgress += 0.05;
-
-                if (heartProgress <= 1) {
-                    requestAnimationFrame(startHeartsDrawing);
-                } else {
-                    heartProgress = 0;
-                    heartIndex++;
-                    requestAnimationFrame(startHeartsDrawing);
-                }
-            } else {
+            if (step === 1) {
                 setTimeout(() => {
-                    messageBox.classList.add('show');
-                }, 500);
+                    document.getElementById('title-text').innerText = "أنفخي من الاوادم ثوله 😤";
+                    document.getElementById('buttons-sec').innerHTML = `
+                        <button class="btn" onclick="blowAttempt(2)">هههفففففففففف</button>
+                    `;
+                }, 400);
+            } else if (step === 2) {
+                setTimeout(() => {
+                    document.getElementById('title-text').innerText = "هاي شبيج ام الفهو انفخي اقوى 🤦‍♂️";
+                    document.getElementById('buttons-sec').innerHTML = `
+                        <button class="btn" onclick="blowAttempt(3)">ههههههههففففففففف</button>
+                    `;
+                }, 400);
+            } else if (step === 3) {
+                setTimeout(() => {
+                    document.getElementById('title-text').innerText = "اشاقه وياج يلا هاي انفخي حتى تطفه 🙈❤️";
+                    document.getElementById('buttons-sec').innerHTML = `
+                        <button class="btn" onclick="blowAttempt(4)">ههههفففف</button>
+                    `;
+                }, 400);
+            } else if (step === 4) {
+                setTimeout(() => {
+                    // إطفاء الشمعة
+                    document.getElementById('flame').style.opacity = '0';
+                    document.getElementById('title-text').innerText = "عفيةةة! انطفت الشمعة 🎉";
+                    
+                    setTimeout(() => {
+                        // الانتقال لمرحلة منو يحب الثاني أكثر
+                        document.getElementById('cake-sec').style.display = 'none';
+                        showLoveQuestion();
+                    }, 1200);
+                }, 400);
             }
         }
 
-        function drawSingleHeart(x, y, size, progress) {
-            ctx.save();
-            ctx.translate(x, y);
-            ctx.scale(progress, progress);
+        function showLoveQuestion() {
+            document.getElementById('error-icon').style.display = 'none';
+            document.getElementById('angry-icon').style.display = 'none';
+            document.getElementById('title-text').innerText = "منو أكثر يحب الثاني؟ 🧐❤️";
             
-            ctx.beginPath();
-            ctx.fillStyle = '#e6005c';
-            ctx.shadowColor = '#ff69b4';
-            ctx.shadowBlur = 10;
-
-            let topCurveHeight = size * 0.3;
-            ctx.moveTo(0, topCurveHeight);
-            ctx.bezierCurveTo(0, 0, -size / 2, 0, -size / 2, topCurveHeight);
-            ctx.bezierCurveTo(-size / 2, (size + topCurveHeight) / 2, 0, size, 0, size * 1.2);
-            ctx.bezierCurveTo(0, size, size / 2, (size + topCurveHeight) / 2, size / 2, topCurveHeight);
-            ctx.bezierCurveTo(size / 2, 0, 0, 0, 0, topCurveHeight);
-            
-            ctx.fill();
-            ctx.restore();
+            let htmlButtons = `
+                <button class="btn btn-alt" onclick="selectLoveOption('me')">اني أحبك أكثر</button>
+                <button class="btn" onclick="selectLoveOption('you')">انت تحبني اكثر</button>
+            `;
+            document.getElementById('buttons-sec').innerHTML = htmlButtons;
         }
 
+        function selectLoveOption(choice) {
+            if (choice === 'me') {
+                loveAttemptCount++;
+                if (loveAttemptCount === 1) {
+                    // المرة الأولى: علامة X
+                    document.getElementById('error-icon').style.display = 'block';
+                    setTimeout(() => {
+                        showLoveQuestion();
+                    }, 1000);
+                } else if (loveAttemptCount >= 2) {
+                    // المرة الثانية: وجه غاضب وإزالة الخيار
+                    document.getElementById('error-icon').style.display = 'none';
+                    document.getElementById('angry-icon').style.display = 'block';
+                    document.getElementById('title-text').innerText = "بلا عناد! 😡";
+                    
+                    document.getElementById('buttons-sec').innerHTML = `
+                        <button class="btn" onclick="selectLoveOption('you')">انت تحبني اكثر</button>
+                    `;
+                }
+            } else if (choice === 'you') {
+                // عند اختيار انت تحبني اكثر
+                document.getElementById('error-icon').style.display = 'none';
+                document.getElementById('angry-icon').style.display = 'none';
+                
+                document.getElementById('title-text').innerText = "عفيه وهاي بوسه ع شطارتج 😘💋";
+                document.getElementById('buttons-sec').innerHTML = `
+                    <button class="btn" onclick="showFinalGreeting()">امححح بخدج 💋</button>
+                `;
+            }
+        }
+
+        function showFinalGreeting() {
+            document.getElementById('title-text').innerText = "كل عام وأنتِ بمليون خير ♥️🎉";
+            document.getElementById('buttons-sec').style.display = 'none';
+            document.getElementById('greeting-sec').style.display = 'block';
+        }
     </script>
 </body>
 </html>
