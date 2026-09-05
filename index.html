@@ -50,9 +50,9 @@
             100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
         }
 
-        /* الكارت الرئيسي بتصميم زجاجي عاكس */
+        /* الكارت الرئيسي */
         .card {
-            background: rgba(255, 255, 255, 0.88);
+            background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(12px);
             border-radius: 30px;
             padding: 35px 25px;
@@ -63,7 +63,6 @@
             border: 2px solid rgba(255, 182, 193, 0.8);
             position: relative;
             z-index: 10;
-            transition: all 0.3s ease;
         }
 
         .text-title {
@@ -79,34 +78,34 @@
             text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
         }
 
-        /* الكيكة والشمعة */
+        /* الكيكة والشمعة المضبوطة */
         .cake-container {
             position: relative;
-            width: 170px;
-            height: 170px;
+            width: 200px;
+            height: 180px;
             margin: 0 auto 25px auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
         }
 
         .plate {
-            width: 180px;
-            height: 15px;
-            background: #e6e6e6;
+            width: 190px;
+            height: 14px;
             background: linear-gradient(to right, #e0e0e0, #ffffff, #e0e0e0);
             border-radius: 10px;
             position: absolute;
-            bottom: -5px;
-            left: -5px;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+            bottom: 0;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.12);
         }
 
         .cake {
             width: 150px;
-            height: 95px;
+            height: 90px;
             background: linear-gradient(to bottom, #ff85a2, #ff5c8a);
             border-radius: 20px 20px 12px 12px;
             position: absolute;
-            bottom: 5px;
-            left: 10px;
+            bottom: 8px;
             box-shadow: inset 0 -12px 0 #d84370;
         }
 
@@ -115,34 +114,38 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 35px;
+            height: 32px;
             background: #ffffff;
             border-radius: 20px 20px 10px 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.06);
         }
 
-        .candle {
-            width: 14px;
-            height: 50px;
-            background: repeating-linear-gradient(45deg, #ffffff, #ffffff 6px, #ff4d6d 6px, #ff4d6d 12px);
+        /* هيكل الشمعة */
+        .candle-wrapper {
             position: absolute;
-            top: 25px;
-            left: 78px;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            bottom: 95px; /* فوق الكيكة بالضبط */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .flame {
             width: 18px;
-            height: 28px;
+            height: 26px;
             background: radial-gradient(ellipse at bottom, #ffea00 10%, #ff9100 50%, #ff3c00 100%);
             border-radius: 50% 50% 20% 20%;
-            position: absolute;
-            top: -2px;
-            left: 76px;
             box-shadow: 0 0 15px #ff9100, 0 0 25px #ff3c00;
             animation: flicker 0.15s infinite alternate ease-in-out;
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition: opacity 0.5s ease;
+            margin-bottom: 2px;
+        }
+
+        .candle {
+            width: 14px;
+            height: 48px;
+            background: repeating-linear-gradient(45deg, #ffffff, #ffffff 6px, #ff4d6d 6px, #ff4d6d 12px);
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         @keyframes flicker {
@@ -153,7 +156,7 @@
         /* هواء النفخ */
         .wind {
             position: absolute;
-            top: 0px;
+            top: 20px;
             right: 0px;
             font-size: 2.2rem;
             opacity: 0;
@@ -188,7 +191,6 @@
             transition: all 0.25s ease;
             width: 90%;
             max-width: 300px;
-            letter-spacing: 0.5px;
         }
 
         .btn:hover {
@@ -246,7 +248,6 @@
             margin-bottom: 14px;
         }
 
-        /* شريط التمرير الوردية للمعايدة */
         .greeting-box::-webkit-scrollbar {
             width: 6px;
         }
@@ -271,9 +272,13 @@
             <div class="cake">
                 <div class="drips"></div>
             </div>
-            <div class="candle">
+            
+            <!-- مجموعة الشمعة والشعلة متمركزة بالمنتصف تماماً فوق الكيكة -->
+            <div class="candle-wrapper">
                 <div id="flame" class="flame"></div>
+                <div class="candle"></div>
             </div>
+
             <div id="wind-effect" class="wind">💨</div>
         </div>
 
@@ -412,7 +417,7 @@
             document.getElementById('buttons-sec').style.display = 'none';
             document.getElementById('greeting-sec').style.display = 'block';
 
-            // إطلاق القصاصات الملونة الكثيفة في النهاية
+            // إطلاق القصاصات الملونة
             if (typeof confetti === 'function') {
                 confetti({ particleCount: 120, spread: 100, origin: { y: 0.5 } });
             }
